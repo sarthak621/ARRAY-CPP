@@ -2,28 +2,24 @@ class Solution {
   public:
     long subarrayXor(vector<int> &arr, int k) {
         // code here
-        
         int n=arr.size();
-        int xr=0;
-        int cnt=0;
-        //create the map
-        map<int ,int>mp;
-        mp[xr]++; //{0,1}
+        int res=0;
+        
+        unordered_map<int,int>mp;
+        mp[0]=1;
+        int xor_sum=0;
         
         for(int i=0;i<n;i++){
-            xr=xr ^ arr[i];
+            xor_sum = xor_sum ^ arr[i];
+            int ques= xor_sum ^k;
             
-            int x=xr^k;
+            int freq= mp[ques];
             
-            if(mp.find(x)!=mp.end()){
-                //x present hai
-                cnt+=mp[x];
-            }
+            res+=freq;
             
-            //also put xr in map
-            mp[xr]++;
+            mp[xor_sum]++;
         }
         
-        return cnt;
+        return res;
     }
 };
