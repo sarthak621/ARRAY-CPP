@@ -1,42 +1,53 @@
 class Solution {
   public:
   
-    int f(int currentPageCapacity ,vector<int> &arr, int k){
-         
-         int student=1;
-         int pages_student_have=0;
-         
-         for(int i=0;i<arr.size();i++){
-             if(pages_student_have+arr[i]<=currentPageCapacity){
-                 pages_student_have+=arr[i];
-             }
-             else{
-                 student++;
-                 pages_student_have=arr[i];
-             }
-         }
-         
-         return student;
+    bool f(vector<int> &arr, int n, int k, int limit){
+        int stud=1;
+        int page=0;
+        
+        for(int i=0;i<n;i++){
+            
+            if(page+arr[i]<=limit){
+                page+=arr[i];
+            }
+            
+            else{
+                // give it to the next student
+                stud++;
+                page=arr[i];
+            }
+        }
+        
+        if(k<stud) return false;
+        else {
+            return true;
+            
+        }
     }
     
     int findPages(vector<int> &arr, int k) {
-        
-        //impossibble case
-        if(k>arr.size()) return -1;
         // code here
-        int low= *max_element(arr.begin(),arr.end());
+        int n=arr.size();
+        if(n<k) return -1; //impossible 
+        
+        int low= *max_element(arr.begin(), arr.end());
         int high= accumulate(arr.begin(),arr.end(),0);
         
+        int res=-1;
+        
         while(low<=high){
-            int mid=(low+high)/2;
+            int guess=(low+high)/2;
             
-            int no_of_student= f(mid,arr,k);
+            if( f(arr,n,k,guess) ){
+                res=guess;
+                high=guess-1;
+            }
             
-            if(no_of_student>k) low=mid+1;
-            
-            else high=mid-1;
+            else{
+                low=guess+1;
+            }
         }
         
-        return low;
+        return res;
     }
 };
