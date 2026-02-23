@@ -2,23 +2,24 @@ class Solution {
   public:
     int getSecondLargest(vector<int> &arr) {
         // code here
+        int maxi=-1e9;
+        int sec_maxi=-1e9;
+        
         int n=arr.size();
-        int large=INT_MIN;
+        
         for(int i=0;i<n;i++){
-            if(large<arr[i]){
-                large=arr[i];
+            if(arr[i]>maxi){
+                sec_maxi=maxi;
+                maxi=arr[i];
+            }
+            
+            if(arr[i]>sec_maxi && arr[i]!=maxi){
+                sec_maxi=arr[i];
             }
         }
         
-        //now we got the largest
-        int sec_lar=INT_MIN;
-        for(int i=0;i<n;i++){
-            if(sec_lar<arr[i] && arr[i]!=large){
-                sec_lar=arr[i];
-            }
-        }
+        if(sec_maxi==-1e9) return -1;
         
-        if(sec_lar==INT_MIN) return -1;
-        return sec_lar;
+        return sec_maxi;
     }
 };
